@@ -87,7 +87,30 @@ var puppeteer = require("puppeteer");
 
 
 
-   
+    //   await page.waitForSelector(".Box>div:nth-child(2)>article");
+
+    // let arrdevobj = await page.evaluate(() => {
+ 
+    //     console.log("hi");
+
+    //    let arrdev = querySelectorAll(".Box>div:nth-child(2)>article");
+       
+    //    let ansarr=[];
+    //    for(let data of arrdev){
+      
+    //      let obj = {
+    //       "name": data.querySelector("div:nth-child(3)>div:nth-child(1)>div:nth-child(1)>h1>a").textContent.trim(),
+    //      }
+         
+    //      ansarr.push(obj);
+    //    }
+
+    //    return ansarr;
+
+    // });
+    // ansobj["developers"]=arrdevobj;
+    // console.log("devloper list ", arrdevobj);
+    
      
    
    
