@@ -1,40 +1,37 @@
 var puppeteer = require("puppeteer");
 
 
-
-
-
 (async () => {
 
 
     const browser = await puppeteer.launch({ headless: false });
     const page = await browser.newPage();
     await page.goto("https://github.com/trending");
-      
- 
+
+
     let ansobj={
         repositories:[],
         developers:[]
     }
 
-    await page.waitForSelector("body"); 
+    // await page.waitForSelector("body"); 
     await page.waitForSelector(".Box");
     await page.waitForSelector(".Box-row"); 
 
     let arrrepoobj = await page.evaluate(() => {
         let repoarr = document.querySelectorAll(".Box .Box-row");
 
-        repoarr.forEach((element) => {
-            console.log(element.textContent);
-        });
-        
+        // repoarr.forEach((element) => {
+        //     console.log(element.textContent);
+        // });
+
         let arrrepoobj = [];
         for (let val of repoarr) {
 
             let obj = {
-                
+
                 title: val.querySelector(".h3 > a ").textContent.trim(),
-                desciption: val.querySelector("p").textContent.trim(),
+                desciption: "",
                 url: val.querySelector(".h3>a").getAttribute("href"),
                 stars : val.querySelector("div.f6.color-fg-muted.mt-2 > a:nth-child(2)").innerText.trim(),
                 today_stars : val.querySelector("div.f6.color-fg-muted.mt-2 > span.d-inline-block.float-sm-right").textContent.trim(),
@@ -42,6 +39,13 @@ var puppeteer = require("puppeteer");
                 language: val.querySelector(".f6 > span").textContent.trim(),
 
             }
+            if(val.querySelector("p")==null){
+                obj["desciption"]="Desxription not addded by the owner";
+            }
+            else{
+                obj["desciption"]=val.querySelector("p").textContent.trim();
+            }
+            
 
             arrrepoobj.push(obj);
 
@@ -51,9 +55,9 @@ var puppeteer = require("puppeteer");
     });
     ansobj["repositories"]=arrrepoobj;
 
-    console.log("Repos are", arrrepoobj);
+    // console.log("Repos are", arrrepoobj);
 
-   
+
 
   let buttonobj =   await page.evaluate(()=>{
     //    return document.querySelector("div.Box-header.d-md-flex.flex-items-center.flex-justify-between > nav > a:nth-child(2)").click();
@@ -61,6 +65,9 @@ var puppeteer = require("puppeteer");
 
         //devloper button clicked
     });
+ 
+ 
+
 
 
    
@@ -88,9 +95,11 @@ var puppeteer = require("puppeteer");
 
 
     //   await page.waitForSelector(".Box>div:nth-child(2)>article");
+    
 
     // let arrdevobj = await page.evaluate(() => {
- 
+
+        
     //     console.log("hi");
 
     //    let arrdev = querySelectorAll(".Box>div:nth-child(2)>article");
@@ -124,7 +133,5 @@ var puppeteer = require("puppeteer");
 
     //   await browser.close();
 })();
-
-
 
 
